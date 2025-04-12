@@ -32,28 +32,30 @@ function setup() {
 }
 
 function draw() {
-  // 建立漸層背景
-  for (let y = 0; y < height; y++) {
-    let inter1 = map(y, 0, height / 2, 0, 1);
-    let inter2 = map(y, height / 2, height, 0, 1);
-    let c1 = lerpColor(color('#caf0f8'), color('#ade8f4'), inter1);
-    let c2 = lerpColor(color('#ade8f4'), color('#90e0ef'), inter2);
-    stroke(y < height / 2 ? c1 : c2);
-    line(0, y, width, y);
-  }
-
-  // 顯示題目
-  textAlign(CENTER);
-  textSize(30);
-  fill("#000000"); // 題目顏色保持黑色
   if (currentQuestionIndex < questions.getRowCount()) {
-    text(questions.getString(currentQuestionIndex, 'question'), width / 2, height / 2 - 100);
-  }
+    // 建立漸層背景
+    for (let y = 0; y < height; y++) {
+      let inter1 = map(y, 0, height / 2, 0, 1);
+      let inter2 = map(y, height / 2, height, 0, 1);
+      let c1 = lerpColor(color('#caf0f8'), color('#ade8f4'), inter1);
+      let c2 = lerpColor(color('#ade8f4'), color('#90e0ef'), inter2);
+      stroke(y < height / 2 ? c1 : c2);
+      line(0, y, width, y);
+    }
 
-  // 顯示答對或答錯文字
-  fill(resultColor); // 設定答對或答錯文字的顏色
-  textAlign(LEFT); // 將文字對齊方式設為左對齊
-  text(resultText, width / 2 + 250, height / 2 - 100); // 顯示在題目右邊
+    // 顯示題目
+    textAlign(CENTER);
+    textSize(30);
+    fill("#000000"); // 題目顏色保持黑色
+    if (currentQuestionIndex < questions.getRowCount()) {
+      text(questions.getString(currentQuestionIndex, 'question'), width / 2, height / 2 - 100);
+    }
+
+    // 顯示答對或答錯文字
+    fill(resultColor); // 設定答對或答錯文字的顏色
+    textAlign(LEFT); // 將文字對齊方式設為左對齊
+    text(resultText, width / 2 + 250, height / 2 - 100); // 顯示在題目右邊
+  }
 }
 
 function displayQuestion() {
@@ -100,10 +102,13 @@ function checkAnswer() {
 }
 
 function displayResult() {
-  resultText = `結束答題！答對題數: ${correctCount}, 答錯題數: ${incorrectCount}`; // 顯示結果
-  //文字位置 
-  textAlign(CENTER,CENTER);  // 設定文字對齊方式為置中
-  resultColor = "#000000"; // 黑色
+  background("#bbd0ff"); // 清空畫布並設置背景
+  resultText = `結束答題！答對題數: ${correctCount}, 答錯題數: ${incorrectCount}`; 
+  textAlign(CENTER, CENTER); // 設定文字水平和垂直居中對齊
+  textSize(40); // 設定文字大小
+  fill("#000000"); // 設定文字顏色為黑色
+  text(`結束答題！答對題數: ${correctCount}, 答錯題數: ${incorrectCount}`, width / 2, height / 2); // 顯示在畫布正中間
+
   submitButton.hide(); // 隱藏送出按鈕
   radio.hide(); // 隱藏選項按鈕
 }
